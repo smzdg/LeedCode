@@ -1,37 +1,74 @@
-## Welcome to GitHub Pages
+# Binary Tree Level Order Traversal
 
-You can use the [editor on GitHub](https://github.com/smzdg/smzdg-lck.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Binary tree level order traversal is one of ways to traverse tree.Because of it`s characteristic traverse level by level,it is used frequently.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+> ### Problem Description
 
-### Markdown
+Given a binary tree,return the level order traversal of its nodes` values.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+> ### Example
 
-```markdown
-Syntax highlighted code block
+Given a binary
+`[3,9,20,null,null,15,7]`
 
-# Header 1
-## Header 2
-### Header 3
+        
+          3
+         / \
+        9   20
+           /  \
+          15   7
 
-- Bulleted
-- List
+Return its level order travelsal as:
 
-1. Numbered
-2. List
+  [
+  [3],
+  [9,20],
+  [17,7],
+  ]
+  
+  > ### Source
+  
+  [LeedCode Q102](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+  
+---
+> ### Problem Analysis
+* General Steps：Read nodes of each levels,and push its children which isn`t null into queue.
+* Initial Steps：Push the root into queue.
+* Final Steps：If queue is empty which meaning no next level,finish.
+* Attention：The nodes are divided by level.
 
-**Bold** and _Italic_ and `Code` text
+> ### Code
 
-[Link](url) and ![Image](src)
-```
+	class Solution {
+	public:
+		vector<vector<int>> levelOrder(TreeNode* root) {
+			vector<vector<int>> ans;
+			if(!root) return ans;
+			vector<int> res;
+			queue<TreeNode*> que;
+			que.push(root);
+			while(!que.empty()){
+				int len=que.size();		//Notice these two lines of code
+				for(int i=0;i<len;i++){		//divided nodes by leve
+					root=que.front();
+					que.pop();
+					res.push_back(root->val);
+					if(root->left!=NULL) que.push(root->left);
+					if(root->right!=NULL) que.push(root->right);
+				}
+				ans.push_back(res);
+				res.clear();
+			}
+			return ans;
+		}
+	};
+	
+* Method of divided nodes
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+	  int len=que.size();
+	  for(int i=0;i<len;i++){
+		  ...
+	  }
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/smzdg/smzdg-lck.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
